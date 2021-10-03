@@ -24,8 +24,6 @@ jobs:
       - run: npm test
       - run: rm -rf node_modules
       - run: npm install --only=production --silent
-      - name: Deploy files
-        uses: ubuntu-latest
       - run: WORK_DIR=/apps/next-app
       - run: mkdir -p "$WORK_DIR"
       - run: rm -rf $WORK_DIR/{node_modules,.next,public,next.config.js,server.js}
