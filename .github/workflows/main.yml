@@ -8,23 +8,22 @@ jobs:
   build:
     runs-on: self-hosted
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js v16
         uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16.x
           cache: 'npm'
-      - run: npm ci --silent
-      - run: npm run build --if-present
-      - run: npm test
-      - run: rm -rf node_modules
-      - run: npm install --only=production --silent
+      - name: Build app
+        run: |
+          npm ci --silent
+          npm run build --if-present
+          npm test
+          rm -rf node_modules
+          npm install --only=production --silent
       - name: Deploy files
-      - run: mkdir -p /apps/next-app
-      - run: rm -rf /apps/next-app/{node_modules,.next,public,next.config.js,server.js}
-      - run: mv -vf -t /apps/next-app/ ./{node_modules,.next,public,next.config.js,server.js}
+        run: |
+          mkdir -p /apps/next-app
+          rm -rf /apps/next-app/{node_modules,.next,public,next.config.js,server.js}
+          mv -vf -t /apps/next-app/ ./{node_modules,.next,public,next.config.js,server.js}
