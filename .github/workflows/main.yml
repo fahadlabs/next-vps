@@ -24,6 +24,8 @@ jobs:
           npm install --only=production --silent
       - name: Deploy files
         run: |
-          mkdir -p /apps/next-app
-          rm -rf /apps/next-app/{node_modules,.next,public,next.config.js,server.js}
-          mv -vf -t /apps/next-app/ ./{node_modules,.next,public,next.config.js,server.js}
+          mkdir -p /apps/test-app
+          rm -rf /apps/test-app/{node_modules,.next,public,next.config.js,server.js}
+          mv -vf -t /apps/test-app/ ./{node_modules,.next,public,next.config.js,server.js}
+      - name: Restart server
+        run: pm2 restart test-app
